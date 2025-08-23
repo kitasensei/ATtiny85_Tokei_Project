@@ -11,5 +11,5 @@ ATtiny85_tokei_project
 ボタン入力のチャタリング対策のアルゴリズムを独自に開発して実装しました。一般的に用いられているタイマーを使ってのチャタリング回避や、安定しないチャタリングのバウンドのカウントなどを行わず、マイコンの数サイクル以内にボタン押下状態を確定します。非常に単純なアルゴリズムで動作しますので、動作環境を選ばずに動作します。
 
 ![TM1637_chippu](imege/TM1637_chippu.jpg "TM1637 チップ")
-![TM1637_omote](imege/imege/TM1637_omote.jpg "TM1637 表")
-![TM1637_ura](imege/imege/TM1637_ura.jpg "TM1637 裏")
+![TM1637_omote](imege/TM1637_omote.jpg "TM1637 表")
+![TM1637_ura](imege/TM1637_ura.jpg "TM1637 裏")
