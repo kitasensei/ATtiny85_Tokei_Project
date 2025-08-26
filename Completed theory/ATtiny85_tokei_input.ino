@@ -6,7 +6,7 @@ int myButton = 0;
 
 void setup() {
   pinMode(12, INPUT_PULLUP);//IOの設定 D12を入力、プルアップ
-  Serial.begin(112500);//ボーレートせってい
+  Serial.begin(112500);//ボーレート設定
 }
 
 void loop() {
