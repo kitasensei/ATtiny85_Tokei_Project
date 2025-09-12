@@ -10,14 +10,13 @@ TM1637Display display(CLK, DIO);
 
 #include <Wire.h>
 
-boid setup(){
+void setup(){
   //Wire.begin();      //マスターで接続
   //Serial.begin(9600);//シリアル通信スタート
   display.setBrightness(3);//0~7 7が一番明るい
 };
 
-boid loop(){
+void loop(){
 display.showNumberDec(7777);
-delay(500)
+delay(500);
 };
-
