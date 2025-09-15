@@ -19,7 +19,7 @@ void setup(){
   pinMode(CLK,HIGH);
   pinMode(DIO,HIGH);
   delay(500);
-};
+}
 
 void loop() {
 //display.showNumberDec(7777);
@@ -164,7 +164,7 @@ else{
   delayMicroseconds(5);
 }
 
-//7seg DATA 5
+//7seg DATA 
 
 digitalWrite(CLK,LOW);
 digitalWrite(DIO,HIGH);//B0 1
@@ -179,7 +179,7 @@ digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
 digitalWrite(CLK,LOW);
-digitalWrite(DIO,LOW);//B2 0
+digitalWrite(DIO,HIGH);//B2 1
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
@@ -303,5 +303,5 @@ delayMicroseconds(5);
 digitalWrite(DIO,HIGH);//DIO 2nd
 delayMicroseconds(5);
 
-delay(1000)
-};
+delay(1000);
+}
