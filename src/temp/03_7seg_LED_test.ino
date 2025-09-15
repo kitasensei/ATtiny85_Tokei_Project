@@ -7,13 +7,13 @@
 #define CLK 2
 #define DIO 3
 //TM1637Display display(CLK, DIO);
-
 //#include <Wire.h>
+#include <Arduino.h> 
 
 void setup(){
   //Wire.begin();      //マスターで接続
   //Serial.begin(9600);//シリアル通信スタート
-  display.setBrightness(3);//0~7 7が一番明るい
+  //display.setBrightness(3);//0~7 7が一番明るい
   pinMode(CLK,OUTPUT);
   pinMode(DIO,OUTPUT);
   pinMode(CLK,HIGH);
@@ -21,16 +21,17 @@ void setup(){
   delay(500);
 };
 
-void loop(){
+void loop() {
 //display.showNumberDec(7777);
 
 //START signal
+
 digitalWrite(DIO,HIGH);
-digitalWrite(CLK,HIGH);//dio first set HIGH
+digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
-digitalWrite(DIO,LOW);
+digitalWrite(DIO,LOW);//DIO 1st
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);
+digitalWrite(CLK,LOW);//CLK 2nd
 delayMicroseconds(5);
 
 //command 1 (DATA command)
@@ -83,6 +84,21 @@ delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
+//ACK
+pinMode(DIO, INPUT);
+delayMicroseconds(10);
+digitalWrite(CLK,LOW);
+delayMicroseconds(5);
+if (digitalRead(DIO) != 0 ) {
+  Serial.println("ACK fails");
+}
+else{
+  pinMode(DIO,OUTPUT);
+  delayMicroseconds(10);
+  digitalWrite(CLK,HIGH);
+  delayMicroseconds(5);
+}
+
 //command 2 (ADDRESS)
 
 digitalWrite(CLK,LOW);
@@ -133,10 +149,25 @@ delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
-//7seg DATA
+//ACK
+pinMode(DIO, INPUT);
+delayMicroseconds(10);
+digitalWrite(CLK,LOW);
+delayMicroseconds(5);
+if (digitalRead(DIO) != 0 ) {
+  Serial.println("ACK fails");
+}
+else{
+  pinMode(DIO,OUTPUT);
+  delayMicroseconds(10);
+  digitalWrite(CLK,HIGH);
+  delayMicroseconds(5);
+}
+
+//7seg DATA 5
 
 digitalWrite(CLK,LOW);
-digitalWrite(DIO,LOW);//B0 0
+digitalWrite(DIO,HIGH);//B0 1
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
@@ -148,7 +179,7 @@ digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
 digitalWrite(CLK,LOW);
-digitalWrite(DIO,HIGH);//B2 1
+digitalWrite(DIO,LOW);//B2 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
@@ -183,16 +214,94 @@ delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
-//STOP signal
+//ACK
+pinMode(DIO, INPUT);
+delayMicroseconds(10);
 digitalWrite(CLK,LOW);
 delayMicroseconds(5);
-digitalWrite(DIO,LOW);
+if (digitalRead(DIO) != 0 ) {
+  Serial.println("ACK fails");
+}
+else{
+  pinMode(DIO,OUTPUT);
+  delayMicroseconds(10);
+  digitalWrite(CLK,HIGH);
+  delayMicroseconds(5);
+}
+
+//command 3 (0x01001010) displayON LEVEL3
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);//B0 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
-digitalWrite(DIO,HIGH);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,HIGH);//B1 1
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
 delayMicroseconds(5);
 
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);//B2 0
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,HIGH);//B3 1
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);//B4 0
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);//B5 0
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,HIGH);//B6 1
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);//B7 0
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+
+//ACK
+pinMode(DIO, INPUT);
+delayMicroseconds(10);
+digitalWrite(CLK,LOW);
+delayMicroseconds(5);
+if (digitalRead(DIO) != 0 ) {
+  Serial.println("ACK fails");
+}
+else{
+  pinMode(DIO,OUTPUT);
+  delayMicroseconds(10);
+  digitalWrite(CLK,HIGH);
+  delayMicroseconds(5);
+}
+
+//STOP signal
+digitalWrite(CLK,LOW);
+digitalWrite(DIO,LOW);
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);//CLK 1st
+delayMicroseconds(5);
+digitalWrite(DIO,HIGH);//DIO 2nd
+delayMicroseconds(5);
 
 delay(1000)
 };
