@@ -2,13 +2,12 @@
 //TM1637接続ピン番号:DIOpin=2(デジタルピン2) CLKpin=3（デジタルピン3）
 //I2c通信ではないため、専用ピンがそれぞれに必要
 //DS3231接続ピン番号:DIOpin=A4 CLKpin=A5（ハードI2cピンを使用）このスケッチでは未使用
-
+#include <Arduino.h> 
 // #include <TM1637Display.h>
 #define CLK 2
 #define DIO 3
 //TM1637Display display(CLK, DIO);
 //#include <Wire.h>
-#include <Arduino.h> 
 
 void setup(){
   //Wire.begin();      //マスターで接続
