@@ -27,32 +27,26 @@ void loop() {
 //display.showNumberDec(7777);
 
 //START signal
-
+//--------------------
 digitalWrite(CLK,HIGH);
 digitalWrite(DIO,HIGH);
 delayMicroseconds(5);
 digitalWrite(DIO,LOW);//DIO LOW
-delayMicroseconds(5);
-digitalWrite(CLK,LOW);//
-
-delayMicroseconds(5);
 Serial.println("1st start signal OK");
-
+//--------------------
 
 //command 1 (DATA command) LSB 1st 0x 0100 0000
-
+  
+digitalWrite(CLK,LOW);
 digitalWrite(DIO,LOW);//B0 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse1
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);
-delayMicroseconds(5);
 
+digitalWrite(CLK,LOW);  
 digitalWrite(DIO,LOW);//B1 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse2
-delayMicroseconds(5);
-digitalWrite(CLK,LOW);
 delayMicroseconds(5);
 
 digitalWrite(DIO,LOW);//B2 0
@@ -61,45 +55,38 @@ digitalWrite(CLK,HIGH);//CLK pulse3
 delayMicroseconds(5);
 digitalWrite(CLK,LOW);
 delayMicroseconds(5);
-
+  
+digitalWrite(CLK,LOW);
 digitalWrite(DIO,LOW);//B3 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse4
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);
-delayMicroseconds(5);
 
+digitalWrite(CLK,LOW);  
 digitalWrite(DIO,LOW);//B4 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse5
 delayMicroseconds(5);
+  
 digitalWrite(CLK,LOW);
-delayMicroseconds(5);
-
 digitalWrite(DIO,LOW);//B5 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse6
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);
-delayMicroseconds(5);
 
+digitalWrite(CLK,LOW);  
 digitalWrite(DIO,HIGH);//B6 1
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse7
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);
-delayMicroseconds(5);
 
+digitalWrite(CLK,LOW);
 digitalWrite(DIO,LOW);//B7 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse8
-delayMicroseconds(5);
-digitalWrite(CLK,LOW);
-delayMicroseconds(5);
 
-//ACK rev1.5
+//ACK rev1.6
 digitalWrite(CLK,LOW); // まずCLKをLOWにして合図
-delayMicroseconds(5);
 pinMode(DIO, INPUT); // その後、DIOを入力モードに切り替える
 delayMicroseconds(10);//ACK 信号待ち時間
 if (digitalRead(DIO) != 0 ) {
@@ -115,16 +102,16 @@ else{
 }
 Serial.println("command1 OK");
 
-//START next command
+//STOP
 
-digitalWrite(CLK,HIGH);  //START
-delayMicroseconds(5);    //  ↓
-digitalWrite(DIO,HIGH);  //  ↓
-delayMicroseconds(5);    //START
-digitalWrite(DIO,LOW);   //STOP
-delayMicroseconds(5);    //  ↓
-digitalWrite(CLK,LOW);   //  ↓  
-delayMicroseconds(5);    //STOP
+digitalWrite(CLK,LOW);
+delayMicroseconds(5);
+digitalWrite(DIO,LOW);
+delayMicroseconds(5);
+digitalWrite(CLK,HIGH);
+delayMicroseconds(5);
+digitalWrite(DIO,HIGH);
+
 
 
 
