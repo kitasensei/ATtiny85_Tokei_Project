@@ -16,8 +16,8 @@ void setup(){
   pinMode(CLK,OUTPUT);
   pinMode(DIO,OUTPUT);
   delayMicroseconds(5);
-  pinMode(CLK,HIGH);
-  pinMode(DIO,HIGH);
+  digitalWrite(CLK,HIGH);
+  digitalWrite(DIO,HIGH);
   delay(500);
   Serial.println("setup OK");
 }
@@ -49,11 +49,10 @@ delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse2
 delayMicroseconds(5);
 
+digitalWrite(CLK,LOW); 
 digitalWrite(DIO,LOW);//B2 0
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse3
-delayMicroseconds(5);
-digitalWrite(CLK,LOW);
 delayMicroseconds(5);
   
 digitalWrite(CLK,LOW);
@@ -168,7 +167,7 @@ delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse7
 delayMicroseconds(5);
 
-digitalWrite(CLK,LOW)
+digitalWrite(CLK,LOW);
 digitalWrite(DIO,HIGH);//B7 1
 delayMicroseconds(5);
 digitalWrite(CLK,HIGH);//CLK pulse
