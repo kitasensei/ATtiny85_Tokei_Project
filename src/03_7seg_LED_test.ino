@@ -15,6 +15,7 @@ void setup(){
   //display.setBrightness(3);//0~7 7が一番明るい
   pinMode(CLK,OUTPUT);
   pinMode(DIO,OUTPUT);
+  delayMicroseconds(5);
   pinMode(CLK,HIGH);
   pinMode(DIO,HIGH);
   delay(500);
@@ -30,9 +31,10 @@ void loop() {
 digitalWrite(CLK,HIGH);
 digitalWrite(DIO,HIGH);
 delayMicroseconds(5);
-digitalWrite(DIO,LOW);//DIO 1st
+digitalWrite(DIO,LOW);//DIO LOW
 delayMicroseconds(5);
-digitalWrite(CLK,LOW);//CLK 2nd
+digitalWrite(CLK,LOW);//
+
 delayMicroseconds(5);
 Serial.println("1st start signal OK");
 
