@@ -5,19 +5,20 @@
 
 // 1バイトを送信する関数
 bool writeByte(uint8_t data) {
-    // 8 Data Bits (LSBから)
     for (uint8_t i = 0; i < 8; i++) {
         digitalWrite(CLK, LOW);
         delayMicroseconds(10);
         
-        // ピンを出力モードにしてLOWに、入力モードにしてHIGHにする
         if ((data >> i) & 0x01) {
-            pinMode(DIO, INPUT); // HIGHに
+            // ビットが1の場合
+            pinMode(DIO, INPUT);
         } else {
-            pinMode(DIO, OUTPUT); // LOWに
+            // ビットが0の場合
+            pinMode(DIO, OUTPUT);
+            digitalWrite(DIO, LOW);
         }
+        
         delayMicroseconds(10);
-
         digitalWrite(CLK, HIGH);
         delayMicroseconds(10);
     }
