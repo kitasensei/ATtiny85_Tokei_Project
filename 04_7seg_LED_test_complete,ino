@@ -1,9 +1,16 @@
-#include <Arduino.h>
+//TM1637
+//4桁表示
+//====================
 
+//初期設定
+//====================
+#include <Arduino.h>
 #define CLK 5
 #define DIO 6
+//====================
 
 // 1バイトを送信する関数
+//====================
 bool writeByte(uint8_t data) {
     for (uint8_t i = 0; i < 8; i++) {
         digitalWrite(CLK, LOW);
@@ -37,9 +44,9 @@ bool writeByte(uint8_t data) {
         pinMode(DIO, OUTPUT);
         digitalWrite(DIO, LOW);
     }
-
     return ack;
 }
+//====================
 
 // START信号
 void start() {
