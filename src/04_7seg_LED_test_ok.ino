@@ -91,6 +91,8 @@ writeByte(0xC0);
   writeByte(0b01011011); // 2
   writeByte(0b01001111); // 3
   writeByte(0b01100110); // 4
+  writeByte(0b00000110); // 1
+  writeByte(0b01011011); // 2
 
   stop();
 

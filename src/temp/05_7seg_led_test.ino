@@ -1,0 +1,129 @@
+#include <Arduino.h>
+#define CLK 5
+#define DIO 6
+
+// 1バイトを送信する関数
+bool writeByte(uint8_t data) {
+    for (uint8_t i = 0; i < 8; i++) {
+        
+        if ((data >> i) & 0x01) {
+            digitalWrite(CLK, LOW);
+            delayMicroseconds(10);
+            pinMode(DIO, INPUT);
+        } else {
+            digitalWrite(CLK, LOW);
+            delayMicroseconds(10);
+            pinMode(DIO, OUTPUT);
+        }
+        delayMicroseconds(10);
+        digitalWrite(CLK, HIGH);
+        delayMicroseconds(10);
+    }
+    digitalWrite(CLK, LOW);
+    delayMicroseconds(10);
+    pinMode(DIO, INPUT);
+    delayMicroseconds(10);
+    bool ack = (digitalRead(DIO) == LOW);
+    digitalWrite(CLK, HIGH);
+    delayMicroseconds(10);
+    if (!ack) {
+        pinMode(DIO, OUTPUT);
+        digitalWrite(DIO, LOW);
+    }
+    return ack;
+}
+
+// START信号
+void start() {
+    digitalWrite(CLK, HIGH);
+    digitalWrite(DIO, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(DIO, LOW);
+    delayMicroseconds(10);
+    digitalWrite(CLK, LOW);
+    delayMicroseconds(10);
+}
+
+// STOP信号
+void stop() {
+    digitalWrite(CLK, LOW);
+    digitalWrite(DIO, LOW);
+    delayMicroseconds(10);
+    digitalWrite(CLK, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(DIO, HIGH);
+    delayMicroseconds(10);
+}
+
+void setup() {
+    Serial.begin(9600);
+    pinMode(CLK, OUTPUT);
+    pinMode(DIO, OUTPUT);
+    digitalWrite(CLK, HIGH);
+    digitalWrite(DIO, HIGH);
+
+    // --- パワーオン・セルフテスト（POST） ---
+    // 1. ディスプレイをオンにして、全セグメントを点灯
+    start();
+    writeByte(0x8F); // ディスプレイON, 明るさ最大
+    stop();
+
+    start();
+    writeByte(0x40); // 自動インクリメントモード
+    stop();
+
+    start();
+    writeByte(0xC0); // アドレス0から書き込み
+    for (int i = 0; i < 6; i++) {
+        writeByte(0xFF); // すべてのセグメントとドットを点灯
+    }
+    stop();
+    delay(3000); // 1秒間、全点灯表示を維持
+    
+    // 2. ディスプレイをクリア（全セグメントを消灯）
+    start();
+    writeByte(0x40); // 自動インクリメントモード
+    stop();
+
+    start();
+    writeByte(0xC0); // アドレス0から書き込み
+    for (int i = 0; i < 6; i++) {
+        writeByte(0x00); // 全セグメントを消灯
+    }
+    stop();
+    delay(3000); // 消灯状態を維持
+    
+    // 3. 通常の表示モードに移行
+    Serial.println("Arduino ready.");
+}
+
+void loop() {
+    // データ送信のセッション
+    start();
+    writeByte(0x40); // 自動インクリメントモード
+    stop();
+
+    start();
+    writeByte(0xC0); // アドレス0から書き込み
+    
+    // 表示したい4桁のデータ
+    writeByte(0b00000110); // 1
+    writeByte(0b01011011); // 2
+    writeByte(0b01001111); // 3
+    writeByte(0b01100110); // 4
+    writeByte(0b00000110); // 1
+    writeByte(0b01011011); // 2
+    
+    // 残りの4桁をクリア
+    //writeByte(0x00);
+    //writeByte(0x00);
+    
+    stop();
+    
+    // データを送信した直後にディスプレイをオンにする
+    start();
+    writeByte(0x8F); // ディスプレイをオンに、明るさ最大
+    stop();
+
+    delay(2000);
+}
